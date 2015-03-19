@@ -2,21 +2,27 @@ package controllers;
 
 import play.*;
 import play.mvc.*;
+import play.data.*;
 
+import models.*;
 import views.html.*;
 
 public class Application extends Controller {
 
+    static Form<Task> taskForm = Form.form(Task.class);
+
     public static Result index() {
-        return ok(index.render("Your new application is ready."));
+        return redirect(routes.Application.showTasks());
     }
 
     /** Tasks */
     public static Result showTasks() {
-        return TODO;
+        return ok(
+	    views.html.index.render(Task.all(), taskForm)
+	);
     }
 
-    public static Result createTask() {
+    public static Result newTask() {
         return TODO;
     }
 
