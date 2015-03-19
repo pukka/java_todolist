@@ -23,10 +23,19 @@ public class Application extends Controller {
     }
 
     public static Result newTask() {
-        return TODO;
+        Form<Task> filledForm = taskForm.bindFromRequest();
+        if(filledForm.hasErrors()) {
+	    return badRequest(
+	        views.html.index.render(Task.all(), filledForm)
+	    );
+        } else {
+	    Task.create(filledForm.get());
+	    return redirect(routes.Application.showTasks());
+        }
     }
 
     public static Result deleteTask(Long id) {
-        return TODO;
+        Task.delete(id);
+	return redirect(routes.Application.showTasks());
     }
 }
