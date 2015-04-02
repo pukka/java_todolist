@@ -34,8 +34,10 @@ public class Application extends Controller {
         }
     }
 
-    public static Result task(Long id) {
-	 return TODO;
+    public static Result task(Long id){
+	 return ok(
+	     views.html.select.render(Task.select(id))
+	 );
     }
 
     public static Result deleteTask(Long id) {
