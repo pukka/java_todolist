@@ -36,8 +36,20 @@ public class Application extends Controller {
 
     public static Result task(Long id){
 	 return ok(
-	     views.html.select.render(Task.select(id))
+	     views.html.select.render(models.Task.select(id), taskForm)
 	 );
+    }
+
+    public static Result update(Long id){
+        Form<Task> filledForm = taskForm.bindFromRequest();
+            if(filledForm.hasErrors()) {
+                return badRequest(
+	            views.html.select.render(models.Task.select(id), filledForm)
+	        );
+            } else {
+                Task.change(filledForm.get());
+                return redirect(routes.Application.showTasks());
+            }
     }
 
     public static Result deleteTask(Long id) {
