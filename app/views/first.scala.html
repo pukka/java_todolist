@@ -1,0 +1,16 @@
+@(createForm: Form[User])
+
+@import helper._
+
+@main("Todo List"){
+    <h1>TODO LIST</h1>
+    <p>あなたが最初のユーザです。<br>新規登録をお願いします。</p>
+
+    @helper.form(routes.Users.addUser()){
+        @inputText(createForm("name"), '_label->"ユーザ名")
+        @inputPassword(createForm("password"), '_label->"パスワード")
+	<input type="hidden" value="true" name="admin">
+
+	<button type="submit">作成</button>
+    }
+}
