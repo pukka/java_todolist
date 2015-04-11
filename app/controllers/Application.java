@@ -16,6 +16,7 @@ public class Application extends Controller {
     }
 
     /** Tasks */
+    @Security.Authenticated(Secured.class)
     public static Result showTasks() {
         return ok(
 	    views.html.index.render(Task.all(), taskForm)
