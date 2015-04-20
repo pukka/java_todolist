@@ -12,6 +12,8 @@ import models.*;
 public class Users extends Controller {
     /** ユーザ作成用のフォーム */
     static Form<User> userForm = Form.form(User.class);
+    /** ログイン用のフォーム */
+    static Form<Login> loginForm = Form.form(Login.class);
 
     /** ログインページ */
     public static Result login(){
@@ -20,7 +22,7 @@ public class Users extends Controller {
 	if(user.isEmpty()){
 	    return redirect( routes.Users.first() );
 	}
-        return TODO;
+        return ok(login.render(loginForm));
     }
 
     /** ユーザが誰もいなければ呼び出される */
@@ -38,5 +40,38 @@ public class Users extends Controller {
         session().clear();
 	session("name",filledForm.get().name);
 	return redirect(routes.Application.showTasks());
+    }
+
+    /**
+     *  フォームのバインド後、エラーがあればbadRequest
+     *  問題なければセッションにname記録
+     */
+    public static Result authenticate() {
+        Form<Login> filledForm = loginForm.bindFromRequest();
+	if(filledForm.hasErrors()) {
+            return badRequest(login.render(filledForm));
+        }
+	session().clear();
+        session("name",filledForm.get().name);
+        return redirect(routes.Application.showTasks());
+    }
+
+    /** ログアウト処理 */
+    public static Result logout() {
+        session().clear();
+        return redirect(routes.Users.login());
+    }
+
+    /** ログイン用のクラス */
+    public static class Login {
+        public String name;
+	public String password;
+
+	public String validate() {
+	    if (User.authenticate(name, password) == null) {
+	        return "パスワード、またはユーザ名が有効ではありません。";
+            }
+	    return null;
+        }
     }
 }

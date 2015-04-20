@@ -1,0 +1,21 @@
+@(loginForm: Form[Users.Login])
+
+@import helper._
+
+@main("Todo List"){
+    <h1>TODO LIST</h1>
+    <p>ログインをお願いします。</p>
+
+     @if(loginForm.hasGlobalErrors) {
+         <p style="color:red;">
+	     @loginForm.globalError.message
+         </p>
+     }
+
+    @helper.form(routes.Users.authenticate()){
+        @inputText(loginForm("name"), '_label->"ユーザ名")
+        @inputPassword(loginForm("password"), '_label->"パスワード")
+
+	<button type="submit">ログイン</button>
+    }
+}

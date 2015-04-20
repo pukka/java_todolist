@@ -1,8 +1,15 @@
 @(tasks: List[Task], taskForm: Form[Task])
+
 @import helper._
 
 @main("Todo list") {
-    <h1>@tasks.size() 個のタスク</h1>
+    @if(User.checkAdmin(session.get("name")) == true){
+        <h1>Welcome to master !!</h1>
+    }else{
+	<h1>Welcome !!</h1>
+    }
+
+    <h2>@tasks.size() 個のタスク</h2>
     <ul>
         @for(task <- tasks) {
 	    <li>
@@ -22,4 +29,6 @@
         @inputText(taskForm("label"))
 	<input type="submit" value="作成">
     }
+
+    <a href="/logout">ログアウト</a>
 }

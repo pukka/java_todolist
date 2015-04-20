@@ -32,4 +32,10 @@ public class User extends Model {
     public static User authenticate(String name, String password){
         return find.where().eq("name", name).eq("password", password).findUnique();
     }
+
+    /** 名前から権限を確認する */
+    public static Boolean checkAdmin(String name){
+        User user = find.where().eq("name", name).findUnique();
+        return user.admin;
+    }
 }
