@@ -12,7 +12,6 @@ public class User extends Model {
     @Constraints.Min(10)
     public Long id;
 
-    @Constraints.Required
     public String name;
 
     public String password;
@@ -37,5 +36,15 @@ public class User extends Model {
     public static Boolean checkAdmin(String name){
         User user = find.where().eq("name", name).findUnique();
         return user.admin;
+    }
+
+    /** ユーザ名からidを確認する */
+    public static Long checkId(String name){
+        User user = find.where().eq("name", name).findUnique();
+	return user.id;
+    }
+
+    public static void update(User newUser) {
+	newUser.update();
     }
 }

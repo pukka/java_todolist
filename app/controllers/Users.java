@@ -56,6 +56,21 @@ public class Users extends Controller {
         return redirect(routes.Application.showTasks());
     }
 
+    public static Result mypage(Long id){
+        return ok(mypage.render(User.find.ref(id),userForm));
+    }
+
+    /** マイページ更新 */
+    public static Result updateMypage(Long id){
+        Form<User> filledForm = userForm.bindFromRequest();
+	    if(filledForm.hasErrors()) {
+	        return badRequest(mypage.render(User.find.ref(id), filledForm));
+            } else {
+		User.update(filledForm.get());
+		return redirect(routes.Application.showTasks());
+	    }
+    }
+
     /** ログアウト処理 */
     public static Result logout() {
         session().clear();

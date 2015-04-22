@@ -1,0 +1,24 @@
+@(user: User, userForm: Form[User])
+
+@import helper._
+
+@main("まいぺーじ"){
+<h1>マイページ</h1>
+@if(userForm.hasGlobalErrors) {
+  <p style="color:red;">
+    @userForm.globalError.message
+  </p>
+}
+    @helper.form(routes.Users.updateMypage(user.id)){
+      <input type="hidden" value="@user.id" name="id">
+      <input type="text" value="@user.name" name="name">
+      <input type="text" value="@user.password" name="password">
+      @if(user.admin == true){
+        <input type="checkbox" name="admin" value="true" checked="checked">
+      }else{
+        <input type="checkbox" name="admin" value="true">
+      }
+      <button type="submit">更新</button>
+   }
+   <a href="/tasks">トップに戻る</a>
+}

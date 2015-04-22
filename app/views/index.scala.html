@@ -31,4 +31,7 @@
     }
 
     <a href="/logout">ログアウト</a>
+    @form(routes.Users.mypage(User.checkId(session.get("name")))){
+      <button type="submit">マイページへ</button>
+    }
 }
